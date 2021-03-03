@@ -31,13 +31,35 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 library(readr)
 library(tidyverse)
 library(lubridate)
-X_GSPC <- read_csv("^GSPC.csv")
-View(X_GSPC)
 ```
+
+
+```{r}
+spdata <-  read_csv("^GSPC.csv", col_types = cols(Date = col_character(), 
+    Open = col_number(), High = col_number(), 
+    Low = col_number(), Close = col_number(), 
+    `Adj Close` = col_number(), Volume = col_number()))
+View(spdata)
+```
+
 ```{r}
 library(readr)
-Russell <- read_csv("^RUT.csv")
+Russell <- read_csv("^RUT.csv", col_types = cols(Date = col_character(), 
+    Open = col_number(), High = col_number(), 
+    Low = col_number(), Close = col_number(), 
+    `Adj Close` = col_number(), Volume = col_number()))
 View(Russell)
 
+```
+
+```{r}
+spdata %>%
+  ggplot(aes( x= ymd(Date), y = Open))+
+  geom_line()
+```
+```{r}
+Russell %>%
+  ggplot(aes(x = ymd(Date), y = Open))+
+  geom_line()
 ```
 

@@ -43,7 +43,6 @@ View(spdata)
 ```
 
 ```{r}
-library(readr)
 Russell <- read_csv("^RUT.csv", col_types = cols(Date = col_character(), 
     Open = col_number(), High = col_number(), 
     Low = col_number(), Close = col_number(), 
@@ -55,11 +54,45 @@ View(Russell)
 ```{r}
 spdata %>%
   ggplot(aes( x= ymd(Date), y = Open))+
-  geom_line()
+  geom_line(color = "blue")+
+  theme_minimal()+
+  annotate( "text", x = ymd(2020-03-11), y = 3000, label = "Covid19" )
+  
 ```
 ```{r}
 Russell %>%
   ggplot(aes(x = ymd(Date), y = Open))+
   geom_line()
+```
+```{r}
+spdata <- spdata %>%
+  mutate(name = "sp")
+
+```
+
+```{r}
+Russell <- Russell %>%
+  mutate(name = "russ")
+```
+
+
+```{r}
+both <- spdata %>%
+  left_join(Russell,
+            by = c("Date" = "Date" )) %>%
+  mutate(spclose = Close.x )%>%
+  mutate(russclose = Close.y) %>%
+  select(Date, spclose, russclose) %>%
+  pivot_longer(cols = -Date,
+               names_to = "Index" ,
+             values_to = "Close") 
+  
+```
+
+```{r}
+both %>%
+  ggplot(aes(x = ymd(Date), y = Close, color = Index))+
+  geom_line()
+  
 ```
 

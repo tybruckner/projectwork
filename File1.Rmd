@@ -94,7 +94,7 @@ both %>%
   ggplot(aes(x = ymd(Date), y = Close, color = Index))+
   geom_line()+
   theme_minimal()+
-  labs(title = "Large Cap vs Small Cap Data", x = "", y = "", color = "")+
+  labs(title = "Large Cap vs Small Cap Data", x = "", y = "", color = "", caption = "The black line represents the COVID shutdown")+
   geom_vline(xintercept = ymd("2020-03-09"))
   
 ```

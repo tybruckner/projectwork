@@ -80,9 +80,9 @@ Russell <- Russell %>%
 both <- spdata %>%
   left_join(Russell,
             by = c("Date" = "Date" )) %>%
-  mutate(spclose = Close.x )%>%
-  mutate(russclose = Close.y) %>%
-  select(Date, spclose, russclose) %>%
+  mutate(SP = Close.x )%>%
+  mutate(Russ = Close.y) %>%
+  select(Date, SP, Russ) %>%
   pivot_longer(cols = -Date,
                names_to = "Index" ,
              values_to = "Close") 
@@ -92,7 +92,10 @@ both <- spdata %>%
 ```{r}
 both %>%
   ggplot(aes(x = ymd(Date), y = Close, color = Index))+
-  geom_line()
+  geom_line()+
+  theme_minimal()+
+  labs(title = "Large Cap vs Small Cap Data", x = "", y = "", color = "")+
+  geom_vline(xintercept = ymd("2020-03-09"))
   
 ```
 
